@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>کارگاه کد | سینا صالحی امیری</title>
 <meta name="description" content="کارگاه کد: ابزارها و پروژه‌های وب سینا صالحی امیری">
-<meta name="theme-color" content="#080B1A">
+<meta name="theme-color" content="#04060E">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 2.5 34.5 10.8v18.4L20 37.5 5.5 29.2V10.8z' fill='%238F7CFF'/%3E%3Cpath d='M16 15.5 11 20l5 4.5M24 15.5 29 20l-5 4.5' fill='none' stroke='%230A0D1C' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080B1A; --ink:#EEF0FF; --muted:#A9B0DC;
-  --glass:rgba(255,255,255,.07); --glass2:rgba(255,255,255,.12); --edge:rgba(255,255,255,.22);
+  --bg:#04060E; --ink:#EEF0FF; --muted:#A9B0DC;
+  --glass:rgba(255,255,255,.045); --glass2:rgba(255,255,255,.085); --edge:rgba(255,255,255,.17);
   --accent:#8F7CFF; --accent2:#5EE6C8; --pink:#FF7AC6;
   --font:'Vazirmatn',Tahoma,'Segoe UI',sans-serif;
   color-scheme:dark; box-sizing:border-box;
@@ -30,10 +30,10 @@ a{color:inherit}
 
 /* floating light orbs behind the glass */
 .orbs{position:fixed;inset:0;z-index:-1;overflow:hidden}
-.orbs i{position:absolute;border-radius:50%;opacity:.7}
+.orbs i{position:absolute;border-radius:50%;opacity:.45}
 .orbs i:nth-child(1){width:640px;height:640px;background:radial-gradient(circle,var(--accent) 0,transparent 68%);top:-260px;right:-200px}
-.orbs i:nth-child(2){width:560px;height:560px;background:radial-gradient(circle,var(--accent2) 0,transparent 68%);top:40%;left:-260px;opacity:.45}
-.orbs i:nth-child(3){width:520px;height:520px;background:radial-gradient(circle,var(--pink) 0,transparent 68%);bottom:-240px;right:12%;opacity:.4}
+.orbs i:nth-child(2){width:560px;height:560px;background:radial-gradient(circle,var(--accent2) 0,transparent 68%);top:40%;left:-260px;opacity:.28}
+.orbs i:nth-child(3){width:520px;height:520px;background:radial-gradient(circle,var(--pink) 0,transparent 68%);bottom:-240px;right:12%;opacity:.26}
 
 
 .glass{background:var(--glass);border:1px solid var(--edge);border-radius:22px;
@@ -54,16 +54,19 @@ a{color:inherit}
 /* hero */
 .hero{display:grid;grid-template-columns:1.25fr .75fr;gap:30px;align-items:center;padding:60px 0 10px}
 .hero .glass{padding:40px 38px}
-.hero h1{margin:0 0 14px;font-weight:900;font-size:clamp(38px,7vw,68px);line-height:1.3;
-  background:linear-gradient(100deg,var(--h1a,#fff) 30%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1{margin:6px 0 20px;padding:0 0 16px;position:relative;display:inline-block;font-family:var(--font);font-weight:900;font-size:clamp(34px,6vw,52px);line-height:1.35;
+  background:none;color:var(--ink)}
 .hero p{margin:0 0 24px;font-size:19px;color:var(--muted);max-width:30em}
+.hero p.hi{margin:0;font-size:20px;font-weight:500;color:var(--accent2);display:flex;align-items:center;gap:12px}
+.hero p.hi::after{content:"";width:56px;height:2px;border-radius:2px;background:linear-gradient(270deg,var(--accent2),transparent)}
+.hero h1::after{content:"";position:absolute;bottom:0;inset-inline-start:0;width:72px;height:4px;border-radius:4px;background:linear-gradient(270deg,var(--accent),var(--accent2))}
 .btns{display:flex;gap:12px;flex-wrap:wrap}
 .btn{font:inherit;font-weight:700;text-decoration:none;border-radius:14px;padding:9px 24px;border:1px solid var(--edge);background:var(--glass2);cursor:pointer;color:var(--ink)}
 .btn.main{background:linear-gradient(135deg,var(--accent),#6D5BFF);border-color:transparent}
 .btn:hover{filter:brightness(1.15)}
 
 /* 3D cube */
-.stage{perspective:900px;display:grid;place-items:center;height:300px}
+.stage{perspective:900px;display:grid;place-items:center;height:300px;position:relative;touch-action:pan-y;cursor:grab}
 .cube{--s:150px;width:var(--s);height:var(--s);position:relative;transform-style:preserve-3d;will-change:transform;animation:spin 22s linear infinite}
 .cube div{position:absolute;inset:0;display:grid;place-items:center;font-weight:900;font-size:28px;direction:ltr;
   background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.04));border:1px solid var(--edge);border-radius:18px;
@@ -75,6 +78,43 @@ a{color:inherit}
 .cube div:nth-child(5){transform:rotateX(90deg) translateZ(75px)}
 .cube div:nth-child(6){transform:rotateX(-90deg) translateZ(75px)}
 @keyframes spin{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+.stage.off *{animation-play-state:paused!important}
+.cube,.cube div{touch-action:none}
+.stage,.stage *,.ringStage *{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none}
+.stage ::selection,.ringStage ::selection{background:transparent}
+.chip{position:absolute;padding:1px 14px;font-size:14px;font-weight:700;border-radius:999px;background:var(--glass2);border:1px solid var(--edge);direction:ltr;translate:calc(var(--mx,0)*var(--d,0)*1px) calc(var(--my,0)*var(--d,0)*1px);transition:translate .25s ease-out;animation:drift var(--t,6s) ease-in-out infinite alternate;box-shadow:0 8px 20px -10px rgba(0,0,0,.6)}
+@keyframes drift{to{transform:translateY(-12px)}}
+.code{position:absolute;left:0;bottom:-6px;width:min(250px,78%);border-radius:14px;overflow:hidden;background:rgba(8,11,26,.84);color:#EEF0FF;border:1px solid rgba(255,255,255,.2);box-shadow:0 20px 40px -16px rgba(0,0,0,.8);transform:rotateY(14deg) rotateX(4deg);direction:ltr;text-align:left;pointer-events:none;animation:cbob 7s ease-in-out infinite alternate}
+@keyframes cbob{to{transform:rotateY(14deg) rotateX(4deg) translateY(-8px)}}
+.cdots{display:flex;align-items:center;gap:6px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.14)}
+.cdots i{width:8px;height:8px;border-radius:50%;background:#5A6299}
+.cdots span{margin-left:8px;font-size:11px;color:#A9B0DC;font-family:ui-monospace,Consolas,Menlo,monospace}
+.code pre{margin:0;padding:10px 14px 0;height:134px;font:12px/1.65 ui-monospace,Consolas,Menlo,monospace;overflow:hidden;color:#CFD4FF}
+.ringStage{--w:300px;--h:460px;perspective:1500px;overflow:hidden;padding:10px 0 30px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.ring{position:relative;width:var(--w);height:var(--h);margin:0 auto;padding:0;list-style:none;transform-style:preserve-3d;transform:translateZ(calc(var(--r,300px)*-1)) rotateY(var(--rot,0deg))}
+.ring>li{position:absolute;inset:0;transform:rotateY(calc(var(--i)*var(--step,60deg))) translateZ(var(--r,300px));backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.rcard{background:linear-gradient(160deg,var(--glass2),var(--glass));border:1px solid var(--edge);border-radius:22px;box-shadow:0 30px 60px -28px rgba(0,0,0,.8),inset 0 1px 0 var(--inset,rgba(255,255,255,.28))}
+.rcard:hover{border-color:var(--accent2)}
+.glass,.rcard{position:relative}
+.glass::before,.rcard::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(300px circle at var(--px,50%) var(--py,50%),rgba(143,124,255,.24),transparent 62%);opacity:0;transition:opacity .25s;pointer-events:none}
+.glass:hover::before,.rcard:hover::before{opacity:1}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;transform-origin:right;transform:scaleX(0);background:linear-gradient(270deg,var(--accent),var(--accent2))}
+.btn{translate:var(--bx,0) var(--by,0);transition:translate .2s ease-out}
+h2{transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .6s}
+h2.pre{opacity:0;transform:perspective(700px) rotateX(-75deg) translateY(16px);transform-origin:50% 100%}
+h2.pre.in{opacity:1;transform:none}
+.about{max-width:none;display:flex;align-items:center;gap:30px}
+.about p{flex:1}
+.gyroWrap{perspective:700px;width:170px;height:170px;display:grid;place-items:center;flex:none}
+.gyro{width:130px;height:130px;position:relative;transform-style:preserve-3d;transform:rotateX(-20deg) rotateY(25deg);animation:gyro 16s linear infinite}
+.gyro i{position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);box-shadow:0 0 14px rgba(143,124,255,.5)}
+.gyro i:nth-child(2){transform:rotateY(60deg);border-color:var(--accent2);box-shadow:0 0 14px rgba(94,230,200,.45)}
+.gyro i:nth-child(3){transform:rotateY(120deg);border-color:var(--pink);box-shadow:0 0 14px rgba(255,122,198,.45)}
+.gyro b{position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--accent2));box-shadow:0 0 24px var(--accent2)}
+@keyframes gyro{to{transform:rotateX(340deg) rotateY(385deg)}}
+.ringBtns{display:flex;align-items:center;justify-content:center;gap:14px}
+.ringHint{color:var(--muted);font-size:14px}
+@media(max-width:560px){.ringStage{--w:250px;--h:470px}}
 
 section{padding:78px 0 0}
 .statbar{display:grid;grid-template-columns:repeat(3,1fr);margin-top:36px;padding:8px 0;border-radius:22px}
@@ -131,14 +171,15 @@ footer{padding:70px 0 48px;color:var(--muted);font-size:14px;text-align:center}
  .cube div:nth-child(5){transform:rotateX(90deg) translateZ(60px)}.cube div:nth-child(6){transform:rotateX(-90deg) translateZ(60px)}
  .hero .glass{padding:28px 22px}.bar nav a{padding:5px 9px}}
 @media(max-width:760px){.glass{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--glass2)}.bar .glass,.hero>.glass{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}}
-@media(max-width:560px){.wrap{padding:0 16px}.bar{padding:0 12px}section{padding-top:56px}h2{font-size:28px}.hero p{font-size:17px}.btn{flex:1;text-align:center}.stat{padding:10px 4px}.stat b{font-size:24px}.stat span{font-size:12px}.crow{padding:16px}.crow .val{font-size:19px}.group,.card,.about{padding:20px}}
-@media(max-width:480px){#logoText{display:none}.bar .glass{padding:8px 10px}.bar nav a{padding:5px 7px;font-size:15px}}
-@media(max-width:340px){.stat span{font-size:11px}.hero h1{font-size:34px}}
-@media(prefers-reduced-motion:reduce){.cube,.orbs i,.ic{animation:none}.cube{transform:rotateX(-22deg) rotateY(35deg)}html{scroll-behavior:auto}}
+@media(max-width:560px){.about{flex-direction:column;align-items:flex-start}.wrap{padding:0 16px}.bar{padding:0 12px}section{padding-top:56px}h2{font-size:28px}.hero p{font-size:17px}.btn{flex:1;text-align:center}.stat{padding:10px 4px}.stat b{font-size:24px}.stat span{font-size:12px}.crow{padding:16px}.crow .val{font-size:19px}.group,.card,.about{padding:20px}}
+@media(max-width:480px){.code{width:190px}.code pre{font-size:11px;height:124px}.chip{font-size:12px;padding:0 10px}#logoText{display:none}.bar .glass{padding:8px 10px}.bar nav a{padding:5px 7px;font-size:15px}}
+@media(max-width:340px){.stat span{font-size:11px}.hero h1{font-size:30px}}
+@media(prefers-reduced-motion:reduce){.cube,.orbs i,.ic,.chip,.code,.gyro{animation:none}.cube{transform:rotateX(-22deg) rotateY(35deg)}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="progress" id="progress"></div>
 
 <div class="bar"><div class="glass">
   <a class="logo" href="#top"><svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8F7CFF"/><stop offset="1" stop-color="#5EE6C8"/></linearGradient></defs><path d="M20 2.5 34.5 10.8v18.4L20 37.5 5.5 29.2V10.8z" fill="url(#lg)"/><path d="M20 2.5 34.5 10.8 20 19 5.5 10.8z" fill="#fff" opacity=".28"/><path d="M16 15.5 11 20l5 4.5M24 15.5 29 20l-5 4.5M21.5 14 18.5 26" fill="none" stroke="#0A0D1C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="logoText">سایت من</span></a>
@@ -153,6 +194,7 @@ footer{padding:70px 0 48px;color:var(--muted);font-size:14px;text-align:center}
 <main class="wrap" id="top">
   <header class="hero">
     <div class="glass">
+      <p class="hi">سلام، من</p>
       <h1 id="name">سینا</h1>
       <p id="bio"></p>
       <div class="btns">
@@ -162,6 +204,8 @@ footer{padding:70px 0 48px;color:var(--muted);font-size:14px;text-align:center}
     </div>
     <div class="stage" aria-hidden="true">
       <div class="cube"><div>HTML</div><div>CSS</div><div>JS</div><div>C#</div><div>Py</div><div>BE</div></div>
+      <div id="chips"></div>
+      <div class="code"><div class="cdots"><i></i><i></i><i></i><span id="cfile">app.py</span></div><pre id="codeOut"></pre></div>
     </div>
   </header>
 
@@ -169,7 +213,7 @@ footer{padding:70px 0 48px;color:var(--muted);font-size:14px;text-align:center}
 
   <section id="about">
     <h2>درباره من</h2>
-    <div class="glass about tilt"><p id="aboutText"></p></div>
+    <div class="glass about tilt"><p id="aboutText"></p><div class="gyroWrap" aria-hidden="true"><div class="gyro"><i></i><i></i><i></i><b></b></div></div></div>
   </section>
 
   <section id="skills">
@@ -179,7 +223,8 @@ footer{padding:70px 0 48px;color:var(--muted);font-size:14px;text-align:center}
 
   <section id="projects">
     <h2>پروژه‌ها</h2>
-    <ul class="grid projects" id="projectList"></ul>
+    <div class="ringStage" id="ringStage"><ul class="ring" id="projectList"></ul></div>
+    <div class="ringBtns"><button class="theme" id="prev" type="button" aria-label="پروژه قبلی">›</button><span class="ringHint">بکشید تا بچرخد</span><button class="theme" id="next" type="button" aria-label="پروژه بعدی">‹</button></div>
   </section>
 
   <section id="contact">
@@ -238,8 +283,8 @@ DATA.skills.forEach(g => {
 
 const ICONS = ["🎬", "🧾", "⚽", "📈", "🎥", "💰"];
 DATA.projects.forEach((p, i) => {
-  const li = el("li");
-  const card = el("a", "card glass tilt");
+  const li = el("li"); li.style.setProperty("--i", i);
+  const card = el("a", "card rcard");
   card.href = p.url; card.target = "_blank"; card.rel = "noopener";
   const cover = el("div", "cover");
   const h = (i * 57 + 250) % 360;
@@ -297,7 +342,124 @@ $("aboutText").textContent = DATA.about;
 
 /* pause the cube when it is off screen */
 const cube = document.querySelector(".cube");
-if ("IntersectionObserver" in window && cube) new IntersectionObserver(es => { cube.style.animationPlayState = es[0].isIntersecting ? "running" : "paused"; }).observe(cube.parentElement);
+const stage = cube.parentElement, REDUCE = matchMedia("(prefers-reduced-motion:reduce)").matches;
+if ("IntersectionObserver" in window) new IntersectionObserver(es => stage.classList.toggle("off", !es[0].isIntersecting)).observe(stage);
+
+/* floating skill chips */
+const POS = [[2,60,18,5.5],[14,2,26,6.5],[40,78,22,7],[0,30,14,6],[66,82,24,5.8],[30,-4,16,6.8]];
+DATA.skills.flatMap(g => g.items).slice(0, 6).forEach((n, i) => {
+  const c = el("span", "chip", n), p = POS[i];
+  c.style.top = p[0] + "%"; c.style.left = p[1] + "%";
+  c.style.setProperty("--d", p[2]); c.style.setProperty("--t", p[3] + "s");
+  c.style.animationDelay = (-i * .9) + "s";
+  $("chips").appendChild(c);
+});
+
+/* typing code window */
+const SNIPS = [
+  ["app.py", ["def build(idea):", "    tool = make(idea)", "    tool.publish()", "    return tool", "", "build('bazar')"].join("\n")],
+  ["Program.cs", ['var tools = new[] { "tracker", "finance" };', "", "foreach (var t in tools)", "{", "    Ship(t);", "}"].join("\n")]
+];
+let si = 0, ci = 0;
+function typeCode() {
+  const f = SNIPS[si][0], c = SNIPS[si][1];
+  if (!stage.classList.contains("off")) {
+    if (ci === 0) $("cfile").textContent = f;
+    ci++;
+    $("codeOut").textContent = c.slice(0, ci) + (ci < c.length ? "|" : "");
+    if (ci >= c.length) { ci = 0; si = (si + 1) % SNIPS.length; return setTimeout(typeCode, 2600); }
+  }
+  setTimeout(typeCode, 45);
+}
+if (REDUCE) $("codeOut").textContent = SNIPS[0][1]; else typeCode();
+
+/* cube: auto spin + drag; chips: pointer parallax */
+let ry = REDUCE ? 35 : 0, rx = -22, rz = 0, dragC = false, lx = 0, ly = 0, lt = 0, pf = 0;
+cube.style.animation = "none";
+function cubeLoop(t) {
+  const dt = Math.min(.05, (t - lt) / 1000) || 0; lt = t;
+  if (!stage.classList.contains("off")) {
+    if (!dragC && !REDUCE) { ry += 16.4 * dt; rx += 11 * dt; rz += 6 * dt; }
+    cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
+  }
+  requestAnimationFrame(cubeLoop);
+}
+requestAnimationFrame(cubeLoop);
+stage.addEventListener("pointerdown", e => { dragC = true; lx = e.clientX; ly = e.clientY; try { stage.setPointerCapture(e.pointerId); } catch (_) {} });
+const endC = () => { dragC = false; };
+stage.addEventListener("pointerup", endC); stage.addEventListener("pointercancel", endC);
+stage.addEventListener("pointermove", e => {
+  if (dragC) { ry += (e.clientX - lx) * .6; rx -= (e.clientY - ly) * .6; lx = e.clientX; ly = e.clientY; }
+  if (e.pointerType === "mouse" && !pf) pf = requestAnimationFrame(() => { pf = 0; const r = stage.getBoundingClientRect(); stage.style.setProperty("--mx", ((e.clientX - r.left) / r.width - .5) * 2); stage.style.setProperty("--my", ((e.clientY - r.top) / r.height - .5) * 2); });
+});
+stage.addEventListener("pointerleave", () => { stage.style.setProperty("--mx", 0); stage.style.setProperty("--my", 0); });
+
+/* 3D project ring */
+const ring = $("projectList"), rs = $("ringStage"), N = DATA.projects.length, STEP = 360 / N;
+ring.style.setProperty("--step", STEP + "deg");
+function sizeRing() { ring.style.setProperty("--r", (ring.offsetWidth / (2 * Math.tan(Math.PI / N)) + 28) + "px"); }
+sizeRing(); addEventListener("resize", sizeRing);
+let rot = 0, tgt = null, dr = false, down = false, moved = false, sx = 0, lx2 = 0, hov = false, vis = true;
+function paint() {
+  ring.style.setProperty("--rot", rot + "deg");
+  [...ring.children].forEach((li, i) => { const a = (i * STEP + rot) * Math.PI / 180; li.style.opacity = (.35 + .65 * Math.max(0, (Math.cos(a) + .2) / 1.2)).toFixed(2); });
+}
+function ringTick() {
+  if (vis && !dr) {
+    if (tgt !== null) { rot += (tgt - rot) * .14; if (Math.abs(tgt - rot) < .05) { rot = tgt; tgt = null; } }
+    else if (!hov && !REDUCE) rot -= .15;
+    paint();
+  }
+  requestAnimationFrame(ringTick);
+}
+paint(); requestAnimationFrame(ringTick);
+$("prev").addEventListener("click", () => { tgt = Math.round(rot / STEP) * STEP + STEP; });
+$("next").addEventListener("click", () => { tgt = Math.round(rot / STEP) * STEP - STEP; });
+rs.addEventListener("pointerdown", e => { down = true; sx = lx2 = e.clientX; moved = false; });
+rs.addEventListener("pointermove", e => {
+  if (!down) return;
+  if (!dr && Math.abs(e.clientX - sx) > 6) { dr = true; moved = true; tgt = null; try { rs.setPointerCapture(e.pointerId); } catch (_) {} }
+  if (dr) { rot += (e.clientX - lx2) * .45; lx2 = e.clientX; paint(); }
+});
+const upR = () => { if (dr) tgt = Math.round(rot / STEP) * STEP; dr = false; down = false; };
+rs.addEventListener("pointerup", upR); rs.addEventListener("pointercancel", upR);
+rs.addEventListener("click", e => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+rs.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") hov = true; });
+rs.addEventListener("pointerleave", () => { hov = false; });
+rs.addEventListener("focusin", e => {
+  hov = true;
+  const li = e.target.closest("li");
+  if (li) { const i = +li.style.getPropertyValue("--i"); tgt = -i * STEP + Math.round((rot + i * STEP) / 360) * 360; }
+});
+rs.addEventListener("focusout", () => { hov = false; });
+rs.addEventListener("dragstart", e => e.preventDefault());
+stage.addEventListener("selectstart", e => e.preventDefault());
+if ("IntersectionObserver" in window) new IntersectionObserver(es => { vis = es[0].isIntersecting; }).observe(rs);
+
+/* extras: spotlight, progress bar, magnetic buttons, 3D headings, gyroscope */
+document.addEventListener("pointermove", e => {
+  if (e.pointerType !== "mouse") return;
+  const t = e.target.closest && e.target.closest(".glass,.rcard");
+  if (!t) return;
+  const r = t.getBoundingClientRect();
+  t.style.setProperty("--px", (e.clientX - r.left) + "px");
+  t.style.setProperty("--py", (e.clientY - r.top) + "px");
+});
+const pbar = $("progress"); let pq = 0;
+function prog() { pq = 0; const h = document.documentElement.scrollHeight - innerHeight; pbar.style.transform = "scaleX(" + (h > 0 ? Math.min(1, scrollY / h) : 0) + ")"; }
+addEventListener("scroll", () => { if (!pq) pq = requestAnimationFrame(prog); }, { passive: true }); prog();
+document.querySelectorAll(".btn").forEach(b => {
+  b.addEventListener("pointermove", e => { if (e.pointerType !== "mouse") return; const r = b.getBoundingClientRect(); b.style.setProperty("--bx", (e.clientX - r.left - r.width / 2) * .18 + "px"); b.style.setProperty("--by", (e.clientY - r.top - r.height / 2) * .3 + "px"); });
+  b.addEventListener("pointerleave", () => { b.style.setProperty("--bx", "0px"); b.style.setProperty("--by", "0px"); });
+});
+const gy = document.querySelector(".gyro");
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(es => { gy.style.animationPlayState = es[0].isIntersecting ? "running" : "paused"; }).observe(gy.parentElement);
+  if (!REDUCE) {
+    const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }), { threshold: .4 });
+    document.querySelectorAll("h2").forEach(h => { h.classList.add("pre"); io.observe(h); });
+  }
+}
 
 /* dark / light switch */
 const root = document.documentElement, tb = $("theme");
