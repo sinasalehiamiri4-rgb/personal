@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>کارگاه کد | سینا صالحی امیری</title>
-<meta name="description" content="کارگاه کد: ابزارها و پروژه‌های وب سینا صالحی امیری">
+<title>کارگاه کد</title>
+<meta name="description" content="کارگاه کد: ابزارها و پروژه‌های وب">
 <meta name="theme-color" content="#04060E">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 2.5 34.5 10.8v18.4L20 37.5 5.5 29.2V10.8z' fill='%238F7CFF'/%3E%3Cpath d='M16 15.5 11 20l5 4.5M24 15.5 29 20l-5 4.5' fill='none' stroke='%230A0D1C' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,9 +95,19 @@ a{color:inherit}
 .ring>li{position:absolute;inset:0;transform:rotateY(calc(var(--i)*var(--step,60deg))) translateZ(var(--r,300px));backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .rcard{background:linear-gradient(160deg,var(--glass2),var(--glass));border:1px solid var(--edge);border-radius:22px;box-shadow:0 30px 60px -28px rgba(0,0,0,.8),inset 0 1px 0 var(--inset,rgba(255,255,255,.28))}
 .rcard:hover{border-color:var(--accent2)}
-.glass,.rcard{position:relative}
-.glass::before,.rcard::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(300px circle at var(--px,50%) var(--py,50%),rgba(143,124,255,.24),transparent 62%);opacity:0;transition:opacity .25s;pointer-events:none}
-.glass:hover::before,.rcard:hover::before{opacity:1}
+.glass,.rcard,.g3d{position:relative}
+.g3d{background:linear-gradient(160deg,var(--glass2),var(--glass));border:1px solid var(--edge);border-radius:22px;box-shadow:0 24px 50px -24px rgba(0,0,0,.75),inset 0 1px 0 var(--inset,rgba(255,255,255,.28));transform-style:preserve-3d}
+.g3d.tilt:hover{border-color:var(--accent2)}
+.group h3{transform:translateZ(34px)}
+.about p{transform:translateZ(26px)}
+.gyroWrap{transform:translateZ(54px)}
+.crow .val,.crow .label{transform:translateZ(24px)}
+button.copy{transform:translateZ(36px)}
+.stat{transform:translateZ(22px)}
+.hero{position:relative}
+.floor{position:absolute;left:-12%;right:-12%;bottom:-30px;height:280px;z-index:-1;pointer-events:none;transform:perspective(520px) rotateX(64deg);transform-origin:50% 100%;background-image:linear-gradient(var(--edge) 1px,transparent 1px),linear-gradient(90deg,var(--edge) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent);mask-image:linear-gradient(to top,#000 10%,transparent);opacity:.8}
+.glass::before,.rcard::before,.g3d::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(300px circle at var(--px,50%) var(--py,50%),rgba(143,124,255,.24),transparent 62%);opacity:0;transition:opacity .25s;pointer-events:none}
+.glass:hover::before,.rcard:hover::before,.g3d:hover::before{opacity:1}
 .progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;transform-origin:right;transform:scaleX(0);background:linear-gradient(270deg,var(--accent),var(--accent2))}
 .btn{translate:var(--bx,0) var(--by,0);transition:translate .2s ease-out}
 h2{transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .6s}
@@ -145,8 +155,15 @@ a.card:hover{border-color:var(--accent2)}
 .bw i{width:9px;height:9px;border-radius:50%;background:var(--muted);opacity:.55}
 .bw span{margin-inline-start:8px;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cb{flex:1;display:grid;place-items:center;position:relative;overflow:hidden}
-.cb img{width:100%;height:100%;object-fit:cover}
+.cb img{width:100%;height:100%;object-fit:cover;object-position:top}
 .ic{font-size:50px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.4))}
+.mini{position:absolute;inset:0;padding:12px 16px;display:flex;flex-direction:column;justify-content:center;gap:4px;text-align:right}
+.mini b{font-size:22px;font-weight:900;color:#fff;line-height:1.4}
+.mini small{color:rgba(255,255,255,.78);font-size:12px}
+.mbars{display:flex;gap:6px;margin-top:8px;width:70%}
+.mbars i{height:8px;border-radius:4px;background:rgba(255,255,255,.28);flex:1}
+.mbars i:nth-child(2){flex:2}
+.mini .ic{position:absolute;left:14px;bottom:8px;font-size:30px}
 .tech{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
 .tech span{font-size:13px;border:1px solid var(--edge);border-radius:8px;padding:0 10px;background:var(--glass2);direction:ltr}
 li{list-style:none}
@@ -193,9 +210,10 @@ footer{padding:70px 0 48px;color:var(--muted);font-size:14px;text-align:center}
 
 <main class="wrap" id="top">
   <header class="hero">
+    <div class="floor" aria-hidden="true"></div>
     <div class="glass">
-      <p class="hi">سلام، من</p>
-      <h1 id="name">سینا</h1>
+      <p class="hi">خوش آمدید به</p>
+      <h1 id="name">کارگاه کد</h1>
       <p id="bio"></p>
       <div class="btns">
         <a class="btn main" href="#projects">دیدن پروژه‌ها</a>
@@ -209,11 +227,11 @@ footer{padding:70px 0 48px;color:var(--muted);font-size:14px;text-align:center}
     </div>
   </header>
 
-  <div class="statbar glass" id="stats"></div>
+  <div class="statbar g3d tilt" id="stats"></div>
 
   <section id="about">
     <h2>درباره من</h2>
-    <div class="glass about tilt"><p id="aboutText"></p><div class="gyroWrap" aria-hidden="true"><div class="gyro"><i></i><i></i><i></i><b></b></div></div></div>
+    <div class="g3d about tilt"><p id="aboutText"></p><div class="gyroWrap" aria-hidden="true"><div class="gyro"><i></i><i></i><i></i><b></b></div></div></div>
   </section>
 
   <section id="skills">
@@ -240,20 +258,19 @@ footer{padding:70px 0 48px;color:var(--muted);font-size:14px;text-align:center}
 const BASE = "https://sinasalehiamiri4-rgb.github.io/";
 const DATA = {
   brand: "کارگاه کد",
-  name: "سینا صالحی امیری",
   bio: "برنامه‌نویسی که ابزارهای کاربردی می‌سازد: از قیمت لحظه‌ای بازار تا مدیریت چک و هزینه‌ها.",
-  about: "من سینا هستم و دوست دارم ابزارهایی بسازم که در کارهای روزمره به درد بخورند؛ از ردیابی فیلم‌ها و هزینه‌ها تا ابزار فیلمبرداری. با Python، C# و جاوااسکریپت کار می‌کنم و پروژه‌هایم را آنلاین منتشر کرده‌ام تا هر کسی بتواند از آن‌ها استفاده کند.",
+  about: "من دوست دارم ابزارهایی بسازم که در کارهای روزمره به درد بخورند؛ از ردیابی فیلم‌ها و هزینه‌ها تا ابزار فیلمبرداری. با Python، C# و جاوااسکریپت کار می‌کنم و پروژه‌هایم را آنلاین منتشر کرده‌ام تا هر کسی بتواند از آن‌ها استفاده کند.",
   skills: [
     { title: "بک‌اند", items: ["بک‌اند", "C#", "Python"] },
     { title: "فرانت‌اند", items: ["HTML", "CSS", "JavaScript"] }
   ],
   projects: [
-    { title: "ردیاب فیلم", desc: "برای مدیریت و ثبت فیلم‌هایی که دیده‌ام و می‌خواهم ببینم.", url: BASE + "tracker/" },
-    { title: "مدیریت چک و حواله", desc: "ثبت و پیگیری چک‌ها و حواله‌ها در یک جا.", url: BASE + "check-manager/" },
-    { title: "سایت فوتبال", desc: "یک سایت برای طرفداران فوتبال.", url: BASE + "LFC/" },
-    { title: "قیمت لحظه‌ای بازار", desc: "نمایش قیمت‌های بازار به‌صورت لحظه‌ای.", url: BASE + "bazar/" },
-    { title: "تله‌پرامپتر", desc: "متن را روی صفحه نمایش می‌دهد تا هنگام فیلمبرداری از روی آن بخوانید.", url: BASE + "teleprompter/" },
-    { title: "مدیریت هزینه‌ها", desc: "ثبت خرج‌ها و نگه‌داشتن حساب هزینه‌های روزمره.", url: BASE + "finance/" }
+    { title: "AniTracker Hub", desc: "جدول پخش هفتگی و دانلود انیمه، سریال و فیلم؛ بدون نیاز به حساب کاربری.", tag: "جدول پخش و دانلود", theme: "#0b0c12", url: BASE + "tracker/" },
+    { title: "مدیریت چک و حواله", desc: "سامانه‌ی هوشمند ثبت و پیگیری چک‌ها، حواله‌ها، اقساط و حساب‌های بانکی.", tag: "ثبت و پیگیری اسناد", theme: "#4f46e5", url: BASE + "check-manager/" },
+    { title: "لیگ جزیره", desc: "جدول زنده، برنامه‌ی ۳۸ هفته، نتایج، باشگاه‌ها و آمار لیگ برتر انگلیس.", tag: "لیگ برتر انگلیس", theme: "#0a0d14", url: BASE + "LFC/" },
+    { title: "نبض بازار", desc: "قیمت زنده‌ی طلا، سکه، دلار و یورو با نمودار، ماشین‌حساب و هشدار قیمت.", tag: "طلا، سکه، دلار و یورو", theme: "#0B0A09", url: BASE + "bazar/" },
+    { title: "تلپرامپتر", desc: "متن‌هایت را با سرعت قابل‌تنظیم و دوربین پشت متن بخوان و ضبط کن.", tag: "خواندن متن جلوی دوربین", theme: "#0f0e0c", url: BASE + "teleprompter/" },
+    { title: "دخل‌وخرج", desc: "ردیاب مالی شخصی با تاریخ شمسی، گزارش ماهانه و نمودار هزینه‌ها.", tag: "ردیاب مالی شخصی", theme: "#13204a", url: BASE + "finance/" }
   ],
   phone: "09360641328",
   email: "",
@@ -266,14 +283,14 @@ const $ = id => document.getElementById(id);
 const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
 const fa = s => s.replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
 
-document.title = DATA.brand + " | " + DATA.name;
-$("name").textContent = DATA.name;
+document.title = DATA.brand;
+$("name").textContent = DATA.brand;
 $("bio").textContent = DATA.bio;
 $("logoText").textContent = DATA.brand;
-$("foot").textContent = "© " + fa(String(new Date().getFullYear())) + " " + DATA.name;
+$("foot").textContent = "© " + fa(String(new Date().getFullYear())) + " " + DATA.brand;
 
 DATA.skills.forEach(g => {
-  const box = el("div", "group glass tilt");
+  const box = el("div", "group g3d tilt");
   box.appendChild(el("h3", null, g.title));
   const ul = el("ul", "chips");
   g.items.forEach(n => ul.appendChild(el("li", null, n)));
@@ -282,6 +299,23 @@ DATA.skills.forEach(g => {
 });
 
 const ICONS = ["🎬", "🧾", "⚽", "📈", "🎥", "💰"];
+/* real project previews: og:image from the site itself, else a live screenshot, else the emoji */
+const shot = u => "https://image.thum.io/get/width/640/crop/400/" + u;
+async function findImage(u) {
+  try {
+    const c = new AbortController(), t = setTimeout(() => c.abort(), 4000);
+    const r = await fetch(u, { signal: c.signal }); clearTimeout(t);
+    const m = (await r.text()).match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
+    return m ? new URL(m[1], u).href : null;
+  } catch (e) { return null; }
+}
+function loadImg(srcs, cb, p) {
+  const src = srcs.shift(); if (!src) return;
+  const im = new Image(); im.alt = p.title;
+  im.onload = () => { cb.textContent = ""; cb.appendChild(im); };
+  im.onerror = () => loadImg(srcs, cb, p);
+  im.src = src;
+}
 DATA.projects.forEach((p, i) => {
   const li = el("li"); li.style.setProperty("--i", i);
   const card = el("a", "card rcard");
@@ -292,9 +326,14 @@ DATA.projects.forEach((p, i) => {
   for (let k = 0; k < 3; k++) bar.appendChild(el("i"));
   bar.appendChild(el("span", null, p.url.replace("https://", "").replace(/\/$/, "")));
   const cb = el("div", "cb");
-  cb.style.background = "radial-gradient(circle at 70% 20%,hsla(" + ((h + 60) % 360) + ",90%,65%,.55),transparent 60%),linear-gradient(135deg,hsla(" + h + ",85%,55%,.6),hsla(" + ((h + 40) % 360) + ",80%,35%,.35))";
-  if (p.image) { const im = el("img"); im.src = p.image; im.alt = p.title; cb.appendChild(im); }
-  else cb.appendChild(el("span", "ic", ICONS[i % ICONS.length]));
+  cb.style.background = "radial-gradient(circle at 75% 15%,hsla(" + ((h + 60) % 360) + ",90%,60%,.5),transparent 60%),linear-gradient(135deg," + (p.theme || "#10142e") + ",#05060c)";
+  const mini = el("div", "mini");
+  mini.appendChild(el("b", null, p.title));
+  if (p.tag) mini.appendChild(el("small", null, p.tag));
+  const mb = el("div", "mbars"); for (let k = 0; k < 3; k++) mb.appendChild(el("i")); mini.appendChild(mb);
+  mini.appendChild(el("span", "ic", ICONS[i % ICONS.length]));
+  cb.appendChild(mini);
+  (p.image ? Promise.resolve(p.image) : findImage(p.url)).then(o => loadImg([o, shot(p.url)].filter(Boolean), cb, p));
   cover.appendChild(bar); cover.appendChild(cb);
   card.appendChild(cover);
   card.appendChild(el("h3", null, p.title));
@@ -308,7 +347,7 @@ DATA.projects.forEach((p, i) => {
 });
 
 function contactRow(label, shown, copyValue, href) {
-  const r = el("div", "crow glass");
+  const r = el("div", "crow g3d tilt");
   const left = el("div");
   left.appendChild(el("span", "label", label));
   const v = el("a", "val", shown); v.href = href;
@@ -439,7 +478,7 @@ if ("IntersectionObserver" in window) new IntersectionObserver(es => { vis = es[
 /* extras: spotlight, progress bar, magnetic buttons, 3D headings, gyroscope */
 document.addEventListener("pointermove", e => {
   if (e.pointerType !== "mouse") return;
-  const t = e.target.closest && e.target.closest(".glass,.rcard");
+  const t = e.target.closest && e.target.closest(".glass,.rcard,.g3d");
   if (!t) return;
   const r = t.getBoundingClientRect();
   t.style.setProperty("--px", (e.clientX - r.left) + "px");
@@ -452,6 +491,25 @@ document.querySelectorAll(".btn").forEach(b => {
   b.addEventListener("pointermove", e => { if (e.pointerType !== "mouse") return; const r = b.getBoundingClientRect(); b.style.setProperty("--bx", (e.clientX - r.left - r.width / 2) * .18 + "px"); b.style.setProperty("--by", (e.clientY - r.top - r.height / 2) * .3 + "px"); });
   b.addEventListener("pointerleave", () => { b.style.setProperty("--bx", "0px"); b.style.setProperty("--by", "0px"); });
 });
+/* whole-page 3D: hero card tilts, sections tip in depth while scrolling */
+document.querySelector(".hero>.glass").classList.add("tilt");
+const secs = [...document.querySelectorAll("main section")];
+let sq = 0;
+function secTilt() {
+  sq = 0;
+  const vh = innerHeight, k = innerWidth < 760 ? .5 : 1;
+  secs.forEach(s => {
+    const r = s.getBoundingClientRect();
+    const d = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh));
+    s.style.transform = "perspective(1400px) translateZ(" + (-Math.abs(d) * 70 * k) + "px) rotateX(" + (d * 7 * k) + "deg)";
+  });
+}
+if (!REDUCE) {
+  addEventListener("scroll", () => { if (!sq) sq = requestAnimationFrame(secTilt); }, { passive: true });
+  addEventListener("resize", secTilt);
+  secTilt();
+}
+
 const gy = document.querySelector(".gyro");
 if ("IntersectionObserver" in window) {
   new IntersectionObserver(es => { gy.style.animationPlayState = es[0].isIntersecting ? "running" : "paused"; }).observe(gy.parentElement);
