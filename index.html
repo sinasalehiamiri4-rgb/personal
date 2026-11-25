@@ -84,6 +84,10 @@ a{color:inherit}
 .cube div:nth-child(6){transform:rotateX(-90deg) translateZ(75px)}
 @keyframes spin{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
 .stage.off *{animation-play-state:paused!important}
+#chips{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.hero>*{min-width:0}
+body{min-width:0;max-width:100%}
+@media(max-width:760px){main.wrap{overflow-x:clip}}
 .cube,.cube div{touch-action:none}
 .stage,.stage *,.ringStage *{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none}
 .stage ::selection,.ringStage ::selection{background:transparent}
@@ -164,6 +168,8 @@ a{color:inherit}
 .hero3d .btns{transform:translateZ(46px)}
 @keyframes sway{from{transform:perspective(900px) rotateY(-10deg) rotateX(3deg)}to{transform:perspective(900px) rotateY(10deg) rotateX(-3deg)}}
 @media(hover:none){.hero3d{animation:sway 7s ease-in-out infinite alternate}}
+.hero3d.motion-on{animation:none;transition:none}
+.hero3d .motion{margin-top:16px;font-size:14px;padding:5px 18px;transform:translateZ(46px)}
 @media(prefers-reduced-motion:reduce){.hero3d,.hero h1,.l3,.soc .ico{animation:none}.totop,.flip .gf{transition:none}}
 .glass,.rcard,.g3d{position:relative}
 .g3d{background:linear-gradient(160deg,var(--glass2),var(--glass));border:1px solid var(--edge);border-radius:22px;box-shadow:0 24px 50px -24px rgba(0,0,0,.75),inset 0 1px 0 var(--inset,rgba(255,255,255,.28));transform-style:preserve-3d}
@@ -186,7 +192,7 @@ h2.pre.in{opacity:1;transform:none}
 .about{max-width:none;display:flex;align-items:center;gap:30px}
 .about p{flex:1}
 .gyroWrap{perspective:700px;width:170px;height:170px;display:grid;place-items:center;flex:none}
-.gyroWrap{position:relative;width:290px;height:290px;align-self:center}
+.gyroWrap{position:relative;width:min(290px,100%);height:auto;aspect-ratio:1/1;align-self:center}
 #gl{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .ringBtns{display:flex;align-items:center;justify-content:center;gap:14px}
 .ringHint{color:var(--muted);font-size:14px}
@@ -519,7 +525,7 @@ const stage = cube.parentElement, REDUCE = matchMedia("(prefers-reduced-motion:r
 if ("IntersectionObserver" in window) new IntersectionObserver(es => stage.classList.toggle("off", !es[0].isIntersecting)).observe(stage);
 
 /* floating skill chips */
-const POS = [[2,60,18,5.5],[14,2,26,6.5],[40,78,22,7],[0,30,14,6],[66,82,24,5.8],[30,-4,16,6.8]];
+const POS = [[2,56,18,5.5],[14,2,26,6.5],[26,64,22,7],[0,28,14,6],[42,66,24,5.8],[30,2,16,6.8]];
 DATA.skills.flatMap(g => g.items).slice(0, 6).forEach((n, i) => {
   const c = el("span", "chip", n), p = POS[i];
   c.style.top = p[0] + "%"; c.style.left = p[1] + "%";
@@ -633,6 +639,40 @@ if ("IntersectionObserver" in window) new IntersectionObserver(es => { vis = es[
   addEventListener("beforeinstallprompt", e => { e.preventDefault(); dp = e; b.hidden = false; });
   b.addEventListener("click", async () => { if (!dp) return; dp.prompt(); try { await dp.userChoice; } catch (e) {} dp = null; b.hidden = true; });
   addEventListener("appinstalled", () => { b.hidden = true; });
+})();
+
+/* phones: the welcome card turns with the phone's motion (desktop keeps its mouse effect untouched) */
+(function () {
+  if (!matchMedia("(hover:none)").matches || !("DeviceOrientationEvent" in window)) return;
+  if (matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  const card = document.querySelector(".hero3d");
+  if (!card) return;
+  let tx = 0, ty = 0, cx = 0, cy = 0, b0 = null, g0 = null, on = false;
+  const clamp = (v, m) => Math.max(-m, Math.min(m, v));
+  function loop() {
+    cx += (tx - cx) * .12; cy += (ty - cy) * .12;
+    card.style.transform = "perspective(900px) rotateX(" + cx.toFixed(2) + "deg) rotateY(" + cy.toFixed(2) + "deg)";
+    requestAnimationFrame(loop);
+  }
+  function onOri(e) {
+    if (e.beta == null || e.gamma == null) return;
+    if (b0 === null) { b0 = e.beta; g0 = e.gamma; }
+    if (!on) { on = true; card.classList.add("motion-on"); loop(); }
+    ty = clamp(e.gamma - g0, 30) * .7;
+    tx = -clamp(e.beta - b0, 30) * .7;
+    b0 += (e.beta - b0) * .004; g0 += (e.gamma - g0) * .004;
+  }
+  const start = () => addEventListener("deviceorientation", onOri);
+  if (typeof DeviceOrientationEvent.requestPermission === "function") {
+    const btn = el("button", "btn motion", "فعال‌سازی حرکت گوشی"); btn.type = "button";
+    btn.addEventListener("click", async () => {
+      try {
+        const r = await DeviceOrientationEvent.requestPermission();
+        if (r === "granted") { start(); btn.remove(); } else btn.textContent = "اجازه داده نشد";
+      } catch (e) { btn.textContent = "پشتیبانی نمی‌شود"; }
+    });
+    card.appendChild(btn);
+  } else start();
 })();
 
 /* intro splash */
