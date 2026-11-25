@@ -168,8 +168,8 @@ body{min-width:0;max-width:100%}
 .hero3d .btns{transform:translateZ(46px)}
 @keyframes sway{from{transform:perspective(900px) rotateY(-10deg) rotateX(3deg)}to{transform:perspective(900px) rotateY(10deg) rotateX(-3deg)}}
 @media(hover:none){.hero3d{animation:sway 7s ease-in-out infinite alternate}}
-.hero3d.motion-on{animation:none;transition:none}
-.hero3d .motion{margin-top:16px;font-size:14px;padding:5px 18px;transform:translateZ(46px)}
+.motion-on .hero3d{animation:none}
+.motion-on .tilt{transition:none}
 @media(prefers-reduced-motion:reduce){.hero3d,.hero h1,.l3,.soc .ico{animation:none}.totop,.flip .gf{transition:none}}
 .glass,.rcard,.g3d{position:relative}
 .g3d{background:linear-gradient(160deg,var(--glass2),var(--glass));border:1px solid var(--edge);border-radius:22px;box-shadow:0 24px 50px -24px rgba(0,0,0,.75),inset 0 1px 0 var(--inset,rgba(255,255,255,.28));transform-style:preserve-3d}
@@ -641,37 +641,51 @@ if ("IntersectionObserver" in window) new IntersectionObserver(es => { vis = es[
   addEventListener("appinstalled", () => { b.hidden = true; });
 })();
 
-/* phones: the welcome card turns with the phone's motion (desktop keeps its mouse effect untouched) */
+/* phones: every 3D card turns with the phone's motion sensors (desktop keeps its mouse effect untouched) */
 (function () {
   if (!matchMedia("(hover:none)").matches || !("DeviceOrientationEvent" in window)) return;
   if (matchMedia("(prefers-reduced-motion:reduce)").matches) return;
-  const card = document.querySelector(".hero3d");
-  if (!card) return;
   let tx = 0, ty = 0, cx = 0, cy = 0, b0 = null, g0 = null, on = false;
-  const clamp = (v, m) => Math.max(-m, Math.min(m, v));
+  const vis = new Set(), clamp = (v, m) => Math.max(-m, Math.min(m, v));
   function loop() {
     cx += (tx - cx) * .12; cy += (ty - cy) * .12;
-    card.style.transform = "perspective(900px) rotateX(" + cx.toFixed(2) + "deg) rotateY(" + cy.toFixed(2) + "deg)";
+    vis.forEach(c => {
+      const k = c.classList.contains("hero3d") ? 1 : .6;
+      c.style.transform = "perspective(900px) rotateX(" + (cx * k).toFixed(2) + "deg) rotateY(" + (cy * k).toFixed(2) + "deg)";
+    });
     requestAnimationFrame(loop);
+  }
+  function begin() {
+    on = true;
+    document.documentElement.classList.add("motion-on");
+    const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) vis.add(x.target); else vis.delete(x.target); }));
+    document.querySelectorAll(".tilt").forEach(c => io.observe(c));
+    loop();
   }
   function onOri(e) {
     if (e.beta == null || e.gamma == null) return;
     if (b0 === null) { b0 = e.beta; g0 = e.gamma; }
-    if (!on) { on = true; card.classList.add("motion-on"); loop(); }
+    if (!on) begin();
     ty = clamp(e.gamma - g0, 30) * .7;
     tx = -clamp(e.beta - b0, 30) * .7;
     b0 += (e.beta - b0) * .004; g0 += (e.gamma - g0) * .004;
   }
   const start = () => addEventListener("deviceorientation", onOri);
   if (typeof DeviceOrientationEvent.requestPermission === "function") {
-    const btn = el("button", "btn motion", "فعال‌سازی حرکت گوشی"); btn.type = "button";
-    btn.addEventListener("click", async () => {
+    /* iPhone: Apple only allows the sensor after a touch, so the first tap anywhere asks (no visible button) */
+    let asking = false;
+    const stop = () => { removeEventListener("click", ask, true); removeEventListener("touchend", ask, true); };
+    async function ask() {
+      if (asking) return;
+      asking = true;
       try {
         const r = await DeviceOrientationEvent.requestPermission();
-        if (r === "granted") { start(); btn.remove(); } else btn.textContent = "اجازه داده نشد";
-      } catch (e) { btn.textContent = "پشتیبانی نمی‌شود"; }
-    });
-    card.appendChild(btn);
+        if (r === "granted") { start(); stop(); } else if (r === "denied") stop();
+      } catch (e) {}
+      asking = false;
+    }
+    addEventListener("click", ask, true);
+    addEventListener("touchend", ask, true);
   } else start();
 })();
 
